@@ -1,5 +1,6 @@
 import React from 'react';
 import './sidebar.scss';
+import { Link } from 'react-router-dom';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -18,8 +19,10 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="top">
-        <AcUnitIcon className="icon" />
-        <span className="logo">Ini Logo</span>
+        <Link to="/">
+          <AcUnitIcon className="icon" />
+          <span className="logo">Ini Logo</span>
+        </Link>
       </div>
       <hr />
       <div className="center">
@@ -32,8 +35,10 @@ const Sidebar = () => {
 
           <div className="title">LISTS</div>
           <li>
-            <AccountCircleIcon className="icon" />
-            <span>Users</span>
+            <Link to="/users">
+              <AccountCircleIcon className="icon" />
+              <span>Users</span>
+            </Link>
           </li>
           <li>
             <StoreMallDirectoryIcon className="icon" />

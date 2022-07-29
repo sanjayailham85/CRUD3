@@ -51,8 +51,8 @@ const Widget = ({ type }) => {
           <MonetizationOnOutlinedIcon
             className="icon"
             style={{
-              color: 'gold',
-              backgroundColor: 'rgba(255, 217, 0, 0.113)',
+              color: 'goldenrod',
+              backgroundColor: 'rgba(255, 255, 0, 0.335)',
             }}
           />
         ),
