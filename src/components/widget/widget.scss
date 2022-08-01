@@ -26,7 +26,6 @@
         .link {
             width: max-content;
             font-size: 12px;
-            border-bottom: 1px solid gray;
             cursor: pointer;
         }
 
@@ -51,5 +50,10 @@
             align-self: flex-end;
 
         }
+    }
+
+    a {
+        color: #555;
+        border: none;
     }
 }

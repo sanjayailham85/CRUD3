@@ -51,6 +51,11 @@
                 padding: 5px;
                 cursor: pointer;
 
+                a {
+                    display: flex;
+                    align-items: center;
+                }
+
                 &:hover {
                     background-color: #ece8ff;
                 }

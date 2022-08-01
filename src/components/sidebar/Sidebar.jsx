@@ -28,22 +28,27 @@ const Sidebar = () => {
       <div className="center">
         <ul>
           <div className="title">MAIN</div>
-          <li>
-            <DashboardIcon className="icon" />
-            <span>Dashboard</span>
-          </li>
+          <Link to="/">
+            <li>
+              <DashboardIcon className="icon" />
+              <span>Dashboard</span>
+            </li>
+          </Link>
 
           <div className="title">LISTS</div>
-          <li>
-            <Link to="/users">
+          <Link to="/users">
+            <li>
               <AccountCircleIcon className="icon" />
               <span>Users</span>
-            </Link>
-          </li>
-          <li>
-            <StoreMallDirectoryIcon className="icon" />
-            <span>Products</span>
-          </li>
+            </li>
+          </Link>
+
+          <Link to="/products">
+            <li>
+              <StoreMallDirectoryIcon className="icon" />
+              <span>Products</span>
+            </li>
+          </Link>
           <li>
             <Inventory2Icon className="icon" />
             <span>Orders</span>

@@ -2,6 +2,27 @@
     height: 500px;
     padding: 20px;
 
+    .dataTableTitle {
+        width: 100%;
+        font-style: 24px;
+        color: gray;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        a {
+            text-decoration: none;
+            color: rgba(0, 128, 0, 0.646);
+            font-style: 16px;
+            font-weight: 400;
+            border: 1px solid rgba(0, 128, 0, 0.585) ;
+            padding: 5px;
+            border-radius:  5px;
+            cursor: pointer;
+        }
+    }
+
     .cellWithImg {
         display: flex;
         align-items: center;
@@ -40,12 +61,14 @@
         display: flex;
         align-items: center;
         gap: 15px;
+        outline: none;
 
         .viewButton {
             padding: 2px 5px;
             border-radius: 5px;
             color: cornflowerblue;
             border: 1px solid cornflowerblue;
+            cursor: pointer;
         }
 
         .deleteButton {
@@ -54,5 +77,11 @@
             color: crimson;
             border: 1px solid crimson;
         }
+
+        
     }
+    a {
+        text-decoration: none;
+    }
+
 }

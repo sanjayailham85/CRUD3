@@ -5,6 +5,7 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+import { Link } from 'react-router-dom';
 
 const Widget = ({ type }) => {
   let data;
@@ -17,7 +18,8 @@ const Widget = ({ type }) => {
       data = {
         title: 'USERS',
         isMoney: false,
-        link: 'See all Users',
+        label: 'See all Users',
+        link: '/users',
         icon: (
           <PersonOutlineOutlinedIcon
             className="icon"
@@ -30,7 +32,8 @@ const Widget = ({ type }) => {
       data = {
         title: 'ORDERS',
         isMoney: false,
-        link: 'View all orders',
+        label: 'View all orders',
+        link: '/users',
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -46,7 +49,8 @@ const Widget = ({ type }) => {
       data = {
         title: 'EARNING',
         isMoney: true,
-        link: 'View net earnings',
+        label: 'View net earnings',
+        link: '/users',
         icon: (
           <MonetizationOnOutlinedIcon
             className="icon"
@@ -62,7 +66,8 @@ const Widget = ({ type }) => {
       data = {
         title: 'BALANCE',
         isMoney: true,
-        link: 'See details',
+        label: 'See details',
+        link: '/users',
         icon: (
           <AccountBalanceWalletOutlinedIcon
             className="icon"
@@ -85,7 +90,9 @@ const Widget = ({ type }) => {
           {' '}
           {data.isMoney && '$'} {amount}{' '}
         </span>
-        <span className="link"> {data.link} </span>
+        <Link to={data.link}>
+          <span className="link"> {data.label} </span>
+        </Link>
       </div>
       <div className="right">
         <div className="percentage positive negative">

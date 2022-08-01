@@ -19,13 +19,18 @@
             .left {
                 flex: 1;
                 text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                
 
                 img {
-                    width: 100px;
-                    height: 100px;
+                    width: 200px;
+                    height: 200px;
                     border-radius: 50%;
                     object-fit: covers;
+                    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
                 }
             }
 
@@ -35,10 +40,12 @@
                 form {
                     display: flex;
                     flex-wrap: wrap;
-                    gap: 20px;
+                    gap: 30px;
+                    justify-content: space-around;
 
                     .formInput {
                         width: 40%;
+                                            
 
                         label {
                             display: flex;
@@ -60,6 +67,17 @@
                         input:focus {
                             outline: none;
                         }
+                    }
+
+                    button {
+                        width: 150px;
+                        padding: 10px;
+                        border: none;
+                        background-color: teal;
+                        color: white;
+                        font-weight: bold;
+                        cursor: pointer;
+                        margin-top: 10px;
                     }
                 }
             }
