@@ -24,6 +24,11 @@ export const userInputs = [
     placeholder: 'Phone Number',
   },
   {
+    id: 'password',
+    label: 'Password',
+    type: 'password',
+  },
+  {
     id: 'address',
     label: 'Address',
     type: 'text',

@@ -1,21 +1,86 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './new.scss';
 import Navbar from '../../components/navbar/Navbar';
 import Sidebar from '../../components/sidebar/Sidebar';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
-import { addDoc, doc, setDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  setDoc,
+} from 'firebase/firestore';
+import { auth, db, storage } from '../../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { useNavigate } from 'react-router-dom';
 
 const New = ({ inputs }) => {
   const [file, setFile] = useState('');
+  const [data, setData] = useState({});
+  const [per, setPerc] = useState(null);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const uploadFile = () => {
+      const name = new Date().getTime() + file.name;
+      const storageRef = ref(storage, file.name);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+          setPerc(progress);
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused');
+              break;
+            case 'running':
+              console.log('Upload is running');
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setData((prev) => ({ ...prev, img: downloadURL }));
+          });
+        }
+      );
+    };
+    file && uploadFile();
+  }, [file]);
+
+  const handleInput = (e) => {
+    const id = e.target.id;
+    const value = e.target.value;
+
+    setData({ ...data, [id]: value });
+  };
   const handleAdd = async (e) => {
     e.preventDefault();
-    await addDoc(collection(db, 'cities', 'LA'), {
-      name: 'Los Angeles',
-      state: 'CA',
-      country: 'USA',
-    });
+    try {
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      await setDoc(doc(db, 'users', res.user.uid), {
+        ...data,
+        timeStamp: serverTimestamp(),
+      });
+      navigate(-1);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="new">
@@ -49,35 +114,21 @@ const New = ({ inputs }) => {
                   style={{ display: 'none' }}
                 />
               </div>
-              <div className="formInput">
-                <label>Username</label>
-                <input type="text" placeholder="Username..." />
-              </div>
-              <div className="formInput">
-                <label>Name</label>
-                <input type="text" placeholder="Name..." />
-              </div>
-              <div className="formInput">
-                <label>Email</label>
-                <input type="email" placeholder="youremail@gmail.com" />
-              </div>
-              <div className="formInput">
-                <label>Phone Number</label>
-                <input type="text" placeholder="1234-5678-1234" />
-              </div>
-              <div className="formInput">
-                <label>Password</label>
-                <input type="password" />
-              </div>
-              <div className="formInput">
-                <label>Address</label>
-                <input type="text" placeholder="Address..." />
-              </div>
-              <div className="formInput">
-                <label>Country</label>
-                <input type="text" placeholder="Country..." />
-              </div>
-              <button type="submit">Send</button>
+
+              {inputs.map((input) => (
+                <div className="formInput" key={input.id}>
+                  <label> {input.label} </label>
+                  <input
+                    id={input.id}
+                    type={input.type}
+                    placeholder={input.placeholder}
+                    onChange={handleInput}
+                  />
+                </div>
+              ))}
+              <button disabled={per !== null && per < 100} type="submit">
+                Send
+              </button>
             </form>
           </div>
         </div>

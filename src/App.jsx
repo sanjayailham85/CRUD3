@@ -8,6 +8,7 @@ import './style/dark.scss';
 import { useContext, useState } from 'react';
 import { DarkModeContext } from './context/darkModeContext';
 import { AuthContext } from './context/AuthContext';
+import { userInputs } from './FormSources';
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -53,7 +54,7 @@ function App() {
                 path="new"
                 element={
                   <RequireAuth>
-                    <New />
+                    <New inputs={userInputs} />
                   </RequireAuth>
                 }
               />

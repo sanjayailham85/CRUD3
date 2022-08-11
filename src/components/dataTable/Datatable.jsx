@@ -1,22 +1,76 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './datatable.scss';
 import { DataGrid } from '@mui/x-data-grid';
-import { userColumns, userRows } from '../../datatablesource';
+import { userColumns } from '../../datatablesource';
 import { Link } from 'react-router-dom';
+import {
+  collection,
+  getDocs,
+  doc,
+  onSnapshot,
+  deleteDoc,
+} from 'firebase/firestore';
+import { db } from '../../firebase';
 
 const Datatable = () => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      let list = [];
+      try {
+        const querySnapshot = await getDocs(collection(db, 'users'));
+        querySnapshot.forEach((doc) => {
+          list.push({ id: doc.id, ...doc.data() });
+        });
+        setData(list);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+
+    //REAL TIME DATA
+    // const unsub = onSnapshot(collection(db, 'users'), (snapShot) => {
+    //   let list = [];
+    //   snapShot.docs.forEach((doc) => {
+    //     list.push({ id: doc.id, ...doc.data });
+    //   });
+    //   setData(list);
+    //   (error) => {
+    //     console.log(error);
+    //   };
+    // });
+    // return () => {
+    //   unsub();
+    // };
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteDoc(doc(db, 'users', id));
+      setData(data.filter((item) => item.id !== id));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const actionColumn = [
     {
       field: 'action',
       headerName: 'Action',
       width: 210,
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <div className="cellAction">
             <Link to="/users/view">
               <div className="viewButton">View</div>
             </Link>
-            <div className="deleteButton">Delete</div>
+            <div
+              className="deleteButton"
+              onClick={() => handleDelete(params.row.id)}
+            >
+              Delete
+            </div>
           </div>
         );
       },
@@ -31,11 +85,10 @@ const Datatable = () => {
       </div>
       <DataGrid
         className="dataGrid"
-        rows={userRows}
+        rows={data}
         columns={userColumns.concat(actionColumn)}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
+        pageSize={8}
+        rowsPerPageOptions={[8]}
       />
     </div>
   );
